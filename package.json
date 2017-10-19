@@ -1,0 +1,24 @@
+{
+  "name": "contract-test-radiator",
+  "version": "0.0.1",
+  "description": "Radiator for consumer-driven contract test",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jjoyraon/contract-test-radiator.git"
+  },
+  "author": "jjoyraon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jjoyraon/contract-test-radiator/issues"
+  },
+  "homepage": "https://github.com/jjoyraon/contract-test-radiator#readme",
+  "dependencies": {
+    "cytoscape": "^3.2.4",
+    "express": "^4.16.2",
+    "socket.io": "^2.0.3"
+  }
+}
