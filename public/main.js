@@ -1,19 +1,20 @@
-// var socket = io.connect('http://localhost:3000');
+var socket = io.connect('http://localhost:3000');
 
-// socket.on('data', function (data) {
-//     console.log(data);
-//     const edges = makeEdgeDataFromJson(data);
-//     drawDashboard(edges);
-// });
-const data = [
-  {'from' : 'i', 'to': 'c', 'result': 'fail'},
-  {'from' : 'i', 'to': 's', 'result': 'pass'},
-  {'from' : 'c', 'to': 'i', 'result': 'fail'},
-  {'from' : 't', 'to': 'h', 'result': 'pass'}
-]
-const nodes = initNode();
-const edges = makeEdgeDataFromJson(data);
-drawDashboard(nodes, edges);
+socket.on('contracts', function (data) {
+    console.log(data);
+    const nodes = initNode();
+    const edges = makeEdgeDataFromJson(data);
+    drawDashboard(nodes, edges);
+});
+// const data = [
+//   {'from' : 'i', 'to': 'c', 'result': 'fail'},
+//   {'from' : 'i', 'to': 's', 'result': 'pass'},
+//   {'from' : 'c', 'to': 'i', 'result': 'fail'},
+//   {'from' : 't', 'to': 'h', 'result': 'pass'}
+// ]
+// const nodes = initNode();
+// const edges = makeEdgeDataFromJson(data);
+// drawDashboard(nodes, edges);
 
 
 function initNode(){
