@@ -17,17 +17,17 @@ socket.on('contracts', function (data) {
 // drawDashboard(nodes, edges);
 
 
-function initNode(){
+const initNode = () => {
   return [
       { data: { id: 'i', name: 'IronMan', weight: 200, faveColor: '#AF76FC', faveShape: 'ellipse', faveImage: '/images/ironman.png' } },
       { data: { id: 'c', name: 'Cpt.America', weight: 200, faveColor: '#6FB1FC', faveShape: 'ellipse', faveImage: '/images/captain-america.png' } },
       { data: { id: 's', name: 'SpiderMan', weight: 200, faveColor: '#EDA1ED', faveShape: 'triangle', faveImage: '/images/spider-man.png' } },
       { data: { id: 'h', name: 'Hulk', weight: 200, faveColor: '#b5d84a', faveShape: 'rectangle    ', faveImage: '/images/hulk.png' } },
-      { data: { id: 't', name: 'Thor', weight: 200, faveColor: '#F5A45D', faveShape: 'rectangle', faveImage: '/images/groot.png' } }
+      { data: { id: 't', name: 'Groot', weight: 200, faveColor: '#F5A45D', faveShape: 'rectangle', faveImage: '/images/groot.png' } }
   ];
 }
 
-function makeEdgeDataFromJson(json){
+const makeEdgeDataFromJson = (json) => {
     let edges = [];
     for (const data of json) {
         edges.push({
@@ -41,7 +41,7 @@ function makeEdgeDataFromJson(json){
     return edges;
 };
 
-function getColor(result){
+const getColor = (result) => {
     switch (result) {
         case 'pass':
             return 'green';
@@ -52,7 +52,7 @@ function getColor(result){
     }
 }
 
-function drawDashboard(nodes, edges){
+const drawDashboard = (nodes, edges) => {
     cytoscape({
         container: document.getElementById('cy'),
 

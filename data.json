@@ -1,1 +1,1 @@
-[{"from":"i","to":"c","result":"fail"},{"from":"i","to":"s","result":"pass"},{"from":"c","to":"i","result":"fail"},{"from":"t","to":"h","result":"pass"}]
+[{"from":"i","to":"c","result":"pass"},{"from":"i","to":"s","result":"pass"},{"from":"c","to":"i","result":"fail"},{"from":"t","to":"h","result":"pass"}]
