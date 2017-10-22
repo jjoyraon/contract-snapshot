@@ -4,7 +4,7 @@
   "description": "Radiator for consumer-driven contract test",
   "main": "app.js",
   "scripts": {
-    "test": "test"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -17,10 +17,15 @@
   },
   "homepage": "https://github.com/jjoyraon/contract-test-radiator#readme",
   "dependencies": {
+    "@slack/client": "^3.14.1",
     "body-parser": "^1.18.2",
     "cytoscape": "^3.2.4",
     "express": "^4.16.2",
+    "form-data": "^2.3.1",
     "jsonfile": "^4.0.0",
+    "mocha": "^4.0.1",
+    "puppeteer": "^0.12.0",
+    "request": "^2.83.0",
     "socket.io": "^2.0.3"
   }
 }

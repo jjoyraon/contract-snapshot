@@ -1,11 +1,11 @@
-var socket = io.connect('http://localhost:3000');
+const socket = io.connect('http://localhost:3000');
 
 socket.on('contracts', function (data) {
-    console.log(data);
-    const nodes = initNode();
-    const edges = makeEdgeDataFromJson(data);
-    drawDashboard(nodes, edges);
+  const nodes = initNode();
+  const edges = makeEdgeDataFromJson(data);
+  drawDashboard(nodes, edges);
 });
+
 // const data = [
 //   {'from' : 'i', 'to': 'c', 'result': 'fail'},
 //   {'from' : 'i', 'to': 's', 'result': 'pass'},
