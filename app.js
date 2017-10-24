@@ -8,6 +8,9 @@ const request = require('request');
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 
+const firebase = require('firebase');
+
+
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use('/scripts', express.static(__dirname + '/node_modules/cytoscape/dist'));
@@ -19,26 +22,48 @@ app.get('/', function (req, res) {
   res.send('Hello World!');
 });
 
+const firebaseConfig = {
+  //FIXME set config
+};
+
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+const load = () => {
+  return database.ref('/contractResult').once('value')
+    .then(snapshot => {
+      return snapshot.val();
+    });
+}
+
+const save = (json) => {
+  database.ref('/contractResult').set(json);
+}
+
 app.put('/data', function (req, res) {
 
-  const dataList = jsonfile.readFileSync('data.json');
-  const reqList = req.body;
-  for(const data of dataList) {
-    for(const req of reqList){
-      if (data.from === req.from && data.to === req.to) {
-        data.result = req.result;
+  load().then(dataList=>{
+    const reqList = req.body;
+    for(const data of dataList) {
+      for(const req of reqList){
+        if (data.from === req.from && data.to === req.to) {
+          data.result = req.result;
+        }
       }
     }
-  }
-  jsonfile.writeFileSync('data.json', dataList);
-  app.get('socketio').emit('contracts', dataList);
-  if(hasAnyFail(dataList)){
-    const token = 'xoxb-';
-    console.log('received has-fail');
-    captureResult();
-    uploadImage(token,  'result.png', 'te-private');
-  }
-  res.sendStatus(200);
+    save(dataList);
+    // jsonfile.writeFileSync('data.json', dataList);
+    app.get('socketio').emit('contracts', dataList);
+    if(hasAnyFail(dataList)){
+      const token = 'xoxb-';
+      console.log('received has-fail');
+      captureResult();
+      uploadImage(token,  'result.png', 'te-private');
+    }
+    res.sendStatus(200);
+  });
+
+
 });
 
 const hasAnyFail = (dataList) => {
@@ -56,7 +81,11 @@ server.listen(3000, function () {
 });
 
 socketio.on('connection', function (socket) {
-  socket.emit('contracts', jsonfile.readFileSync('data.json'));
+  const contract = load();
+  contract.then(data => {
+    socket.emit('contracts', data);
+  });
+
 });
 
 const captureResult = () =>{

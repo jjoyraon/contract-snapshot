@@ -21,6 +21,7 @@
     "body-parser": "^1.18.2",
     "cytoscape": "^3.2.4",
     "express": "^4.16.2",
+    "firebase": "^4.6.0",
     "form-data": "^2.3.1",
     "jsonfile": "^4.0.0",
     "mocha": "^4.0.1",

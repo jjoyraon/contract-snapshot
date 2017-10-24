@@ -1,0 +1,3 @@
+{
+  "contractResult" : [{"from":"i","to":"c","result":"fail"},{"from":"i","to":"s","result":"pass"},{"from":"c","to":"i","result":"pass"},{"from":"t","to":"h","result":"pass"}]
+}
