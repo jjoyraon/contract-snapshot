@@ -4,17 +4,14 @@ const jsonfile = require('jsonfile');
 const server = require('http').createServer(app);
 const socketio = require('socket.io')(server);
 const bodyParser = require('body-parser');
-const request = require('request');
-const fs = require('fs');
-const puppeteer = require('puppeteer');
-
 const firebase = require('firebase');
 
+const screenshot = require('./screenshot-slack-uploader');
 
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/../public'));
 app.use(bodyParser.json());
-app.use('/scripts', express.static(__dirname + '/node_modules/cytoscape/dist'));
-app.use('/scripts', express.static(__dirname + '/node_modules/socket.io-client/dist'));
+app.use('/scripts', express.static(__dirname + '/../node_modules/cytoscape/dist'));
+app.use('/scripts', express.static(__dirname + '/../node_modules/socket.io-client/dist'));
 
 app.set('socketio', socketio);
 
@@ -23,7 +20,12 @@ app.get('/', function (req, res) {
 });
 
 const firebaseConfig = {
-  //FIXME set config
+  apiKey: "AIzaSyCoi6wAUtO5AQeg4oG2UmIfCIWaZrVAguA",
+  authDomain: "contractradiator-b4c46.firebaseapp.com",
+  databaseURL: "https://contractradiator-b4c46.firebaseio.com",
+  projectId: "contractradiator-b4c46",
+  storageBucket: "contractradiator-b4c46.appspot.com",
+  messagingSenderId: "1068960274144"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -52,13 +54,9 @@ app.put('/data', function (req, res) {
       }
     }
     save(dataList);
-    // jsonfile.writeFileSync('data.json', dataList);
     app.get('socketio').emit('contracts', dataList);
     if(hasAnyFail(dataList)){
-      const token = 'xoxb-';
-      console.log('received has-fail');
-      captureResult();
-      uploadImage(token,  'result.png', 'te-private');
+      screenshot.screenshot('http://localhost:3000', 'result.png');
     }
     res.sendStatus(200);
   });
@@ -88,31 +86,13 @@ socketio.on('connection', function (socket) {
 
 });
 
-const captureResult = () =>{
-  (async () => {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto('http://localhost:3000/');
-    await page.screenshot({path: 'result.png'});
-
-    await browser.close();
-  })();
-}
-
-const uploadImage = (token, fileName, channels) => {
-  const imageStream = fs.createReadStream(fileName);
-  const uploadApiUrl = 'https://slack.com/api/files.upload';
-
-  console.log('upload image');
-  request.post({
-    url: uploadApiUrl,
-    formData: {
-      token: token,
-      channels: channels,
-      file: imageStream
-    }}, function(err, res, body){
-      console.log(err);
-    }
-  );
-
-}
+// const captureResult = () =>{
+//   (async () => {
+//     const browser = await puppeteer.launch();
+//     const page = await browser.newPage();
+//     await page.goto('http://localhost:3000/');
+//     await page.screenshot({path: 'result.png'});
+//
+//     await browser.close();
+//   })();
+// }
