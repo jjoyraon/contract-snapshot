@@ -6,17 +6,6 @@ socket.on('contracts', function (data) {
   drawDashboard(nodes, edges);
 });
 
-// const data = [
-//   {'from' : 'i', 'to': 'c', 'result': 'fail'},
-//   {'from' : 'i', 'to': 's', 'result': 'pass'},
-//   {'from' : 'c', 'to': 'i', 'result': 'fail'},
-//   {'from' : 't', 'to': 'h', 'result': 'pass'}
-// ]
-// const nodes = initNode();
-// const edges = makeEdgeDataFromJson(data);
-// drawDashboard(nodes, edges);
-
-
 const initNode = () => {
   return [
       { data: { id: 'i', name: 'IronMan', weight: 200, faveColor: '#AF76FC', faveShape: 'ellipse', faveImage: '/images/ironman.png' } },
