@@ -3,6 +3,7 @@ const puppeteer = require('puppeteer');
 const request = require('request');
 
 const {config} = require('../config-screenshot-slack-uploader');
+const token = process.env.SLACK_TESTBOT_TOKEN
 
 module.exports = {
     screenshot: (pageUrl, filename) => {
@@ -19,7 +20,7 @@ const uploadImage = (filename) => {
     request.post({
         url: uploadApiUrl,
         formData: {
-            token: config.token,
+            token: token,
             channels: config.channels,
             file: imageStream
         }}, function(err, res, body){

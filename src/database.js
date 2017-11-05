@@ -1,5 +1,7 @@
 const firebase = require('firebase');
 const {firebaseConfig} = require('../config-database.js');
+
+firebaseConfig.apiKey = process.env.FIRE_BASE_API_KEY;
 firebase.initializeApp(firebaseConfig);
 const repository = firebase.database();
 
