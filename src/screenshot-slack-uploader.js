@@ -1,30 +1,13 @@
 const fs = require('fs');
 const puppeteer = require('puppeteer');
-const request = require('request');
+const slackFileUpload = require('slack-file-upload');
 
 const {config} = require('../config-screenshot-slack-uploader');
-const token = process.env.SLACK_TESTBOT_TOKEN
 
 module.exports = {
     screenshot: (pageUrl, filename) => {
         shot(pageUrl, filename);
     }
-}
-
-const uploadImage = (filename) => {
-
-    const imageStream = fs.createReadStream(filename);
-    const uploadApiUrl = 'https://slack.com/api/files.upload';
-
-    console.log('upload image: ' + config.channels);
-    request.post({
-        url: uploadApiUrl,
-        formData: {
-            token: token,
-            channels: config.channels,
-            file: imageStream
-        }}, function(err, res, body){
-        });
 }
 
 const shot = (pageUrl, filename) => {
@@ -35,8 +18,16 @@ const shot = (pageUrl, filename) => {
         await page.waitFor(1000);
         await page.screenshot({path: filename});
 
-        await uploadImage(filename);
+        await upload(filename);
         await browser.close();
         fs.unlink(filename, function(err){});
     })();
+}
+
+const upload = (filename) => {
+    slackFileUpload.upload({
+        token : process.env.SLACK_TESTBOT_TOKEN,
+        channels : config.channels,
+        filename : filename
+    });
 }
